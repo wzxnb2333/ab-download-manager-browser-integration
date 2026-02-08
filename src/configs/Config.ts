@@ -52,6 +52,7 @@ export const defaultConfig: Config = {
         "srt",
     ],
     blacklistedUrls: [],
+    allowYoutubeCapture: false,
     allowPassDownloadIfAppNotRespond: true,
     closeNewTabIfItWasCaptured: true,
     silentAddDownload: false,
@@ -85,6 +86,7 @@ export interface Config {
     silentAddDownload: boolean
     silentStartDownload: boolean
     blacklistedUrls: string[]
+    allowYoutubeCapture: boolean
     // minimum file size to capture in kilobytes. 0 = no minimum (capture all sizes)
     captureFileSizeMinimumKb: number
 }
