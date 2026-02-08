@@ -11,7 +11,7 @@ import urlMatch from "match-url-wildcard"
 import {InterceptedMediaResult,} from "~/linkgrabber/LinkGrabberResponse";
 
 import {OnMediaInterceptedFromRequestListener} from "~/media/OnMediaInterceptedFromRequestListener";
-import {MEDIA_BLACKLIST_URLS} from "~/media/MediaBlackList";
+import {getMediaBlacklistUrls} from "~/media/MediaBlackList";
 import {getContentType, getContentLength} from "~/utils/HeaderUtils";
 import {getFileExtension, getFileFromHeaders, getFileFromUrl} from "~/utils/URLUtils";
 
@@ -486,7 +486,7 @@ export abstract class DownloadLinkInterceptor {
     }
 
     private isInMediaBlackList(url: string) {
-        const blackList = MEDIA_BLACKLIST_URLS
+        const blackList = getMediaBlacklistUrls(Configs.getLatestConfig().allowYoutubeCapture)
         if (blackList.length == 0) {
             return false
         }
