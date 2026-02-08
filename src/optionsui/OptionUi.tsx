@@ -73,6 +73,9 @@ class ToolsViewModel extends EventAwareViewModel<ToolsViewModelEvent> implements
     blacklistedUrls!: string[]
 
     @observable
+    allowYoutubeCapture!: boolean
+
+    @observable
     allowPassDownloadIfAppNotRespond!: boolean
 
     @observable
@@ -91,6 +94,10 @@ class ToolsViewModel extends EventAwareViewModel<ToolsViewModelEvent> implements
 
     setBlacklistedUrls(blacklistedUrls: string[]) {
         Configs.setConfigItem("blacklistedUrls", [...new Set(blacklistedUrls)])
+    }
+
+    setAllowYoutubeCapture(value: boolean) {
+        Configs.setConfigItem("allowYoutubeCapture", value)
     }
 
     setCaptureFileSizeMinimumKb(value: number) {
@@ -218,6 +225,8 @@ const SettingsSection: React.FC<{ vm: ToolsViewModel }> = observer((props) => {
                 defaultFileTypes={defaultConfig.registeredFileTypes}
                 blacklistedUrls={vm.blacklistedUrls}
                 defaultBlacklistedUrls={defaultConfig.blacklistedUrls}
+                allowYoutubeCapture={vm.allowYoutubeCapture}
+                setAllowYoutubeCapture={(v) => vm.setAllowYoutubeCapture(v)}
                 setFileTypes={types => vm.setRegisteredFileTypes(types)}
                 setBlacklistedUrls={urls => vm.setBlacklistedUrls(urls)}
                 captureFileSizeMinimumKb={vm.captureFileSizeMinimumKb}
@@ -360,6 +369,8 @@ function AutoCaptureSection(
         blacklistedUrls: string[]
         setBlacklistedUrls: (urls: string[]) => void,
         defaultBlacklistedUrls: string[],
+        allowYoutubeCapture: boolean,
+        setAllowYoutubeCapture: (value: boolean) => void,
         captureFileSizeMinimumKb: number,
         setCaptureFileSizeMinimumKb: (n: number) => void,
     }
@@ -445,6 +456,21 @@ function AutoCaptureSection(
                 }
                 <div className="mt-2"/>
                 <div>{browser.i18n.getMessage("config_blacklisted_urls_description")}</div>
+                <div className="mt-3"/>
+                <div className="flex items-center space-x-2">
+                    <input
+                        checked={props.allowYoutubeCapture}
+                        onChange={(event) => props.setAllowYoutubeCapture(event.target.checked)}
+                        type="checkbox"
+                        className="checkbox checkbox-sm"
+                    />
+                    <div>
+                        {browser.i18n.getMessage("config_allow_youtube_capture")}
+                    </div>
+                </div>
+                <div className="text-sm opacity-80">
+                    {browser.i18n.getMessage("config_allow_youtube_capture_description")}
+                </div>
                 <div className="mt-3"/>
                 <div className="flex flex-col space-y-2">
                     <label>{browser.i18n.getMessage("config_capture_file_size_limit_kb")}</label>
